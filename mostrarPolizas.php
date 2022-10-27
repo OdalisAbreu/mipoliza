@@ -1,7 +1,7 @@
 <?php
 require "conex/dbconex.php";
 $cedula = $_GET['cedula'];
-$clientes = select("seguro_clientes","asegurado_cedula = '".$cedula."'");
+$clientes = select("seguro_clientes", "asegurado_cedula = '" . $cedula . "'");
 $polizas = getSeguroByCedula($cedula);
 $cantidad = $polizas->num_rows;
 
@@ -9,7 +9,7 @@ if ($cantidad > 0) {
     $nombre = $clientes->fetch_object()->asegurado_nombres;
     $apellido = $clientes->fetch_object()->asegurado_apellidos;
     $cedulaDb =  $clientes->fetch_object()->asegurado_cedula;
-    
+
     /*while ($poliza = $polizas->fetch_object()){     
             echo $poliza->nombre.'-';
         }*/
@@ -17,10 +17,10 @@ if ($cantidad > 0) {
     header("Location: http://localhost/poliza/mipoliza/index.php?cedula=1");
     die();
 }
-
 ?>
 
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -37,33 +37,40 @@ if ($cantidad > 0) {
     <!-- AOS -->
     <link rel="stylesheet" href="../content/css/aos.css" />
     <title>Mi P&oacute;liza</title>
+
+    <!-- tailwindcss -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
 </head>
 
-<body>
-    <div class="jumbotron jumbotron-fluid" id="banner" style="background-color:whitesmoke">
-        <div class="container text-center text-md-left">
-            <header>
-                <div class="row justify-content-between">
-                    <div class="col-4">
-                        <img src="image/sc_ic.png" alt="logo" class="logo" />
-                    </div>
-            </header>
+<body class="bg-neutral-700">
 
-        </div>
+    <div class="flex justify-center bg-white">
+        <header>
+            <div>
+                <div>
+                    <img src="image/sc_ic.png" alt="logo" class="logo" />
+                </div>
+            </div>
+        </header>
     </div>
-    <div class="container">
-        <div>
-            Hola <?php echo $nombre.' '.$apellido ?> Te dejo un desglose de tus listados de pólizas activas
+
+    <div class="flex flex-col">
+        <div class="text-white p-2 font-bold text-lg mb-8 w-full bg-sky-600 text-center">
+            Hola <?php echo $nombre . ' ' . $apellido ?>, te dejo un desglose de tus listados de pólizas activas:
         </div>
-        <ul>
-            <?php while ($poliza = $polizas->fetch_object()){ ?>
-            <li>
-                <?php $noPoliza = str_pad($poliza->noPoliza, 6, "0", STR_PAD_LEFT);
-                 echo $poliza->marca. ' - '.$poliza->modelo.'-'.$poliza->aseguradoraPrefijo.'-'.$noPoliza ;?>
-                 <br>
-                 <iframe src="https://multiseguros.com.do/ws_dev/TareasProg/GenerarReporteAseguradoraPdfUnico.php?sms=0&id_trans=<?php echo $poliza->noTransaction ?>" frameborder="0" width="300px" height="60px"></iframe>
-            </li>
-             <?php } ?>
+        <ul class="flex flex-wrap justify-center align-center pb-2">
+            <?php while ($poliza = $polizas->fetch_object()) { ?>
+                <li class="text-sky-600 font-bold text-center m-2 bg-neutral-200 p-2 rounded-md">
+                    <?php $noPoliza = str_pad($poliza->noPoliza, 6, "0", STR_PAD_LEFT);
+                    echo $poliza->marca . ' - ' . $poliza->modelo . '-' . $poliza->aseguradoraPrefijo . '-' . $noPoliza; ?>
+                    <br>
+                    <div class="flex justify-center align-center">
+                        <iframe src="https://multiseguros.com.do/ws_dev/TareasProg/GenerarReporteAseguradoraPdfUnico.php?sms=0&id_trans=<?php echo $poliza->noTransaction ?>" frameborder="0" width="300px" height="60px"></iframe>
+                    </div>
+                </li>
+            <?php } ?>
         </ul>
     </div>
 
