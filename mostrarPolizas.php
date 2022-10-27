@@ -72,6 +72,7 @@ if ($cantidad > 0) {
                 </li>
             <?php } ?>
         </ul>
+        <a href="" class="flex self-center justify-center items-center w-fit p-4 h-6 bg-sky-600 rounded-md text-lg text-white m-2">Volver a WhatsApp</a>
     </div>
 
 </body>
